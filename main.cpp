@@ -1,49 +1,148 @@
 #include <iostream>
-
+#include <vector>
+ 
 using namespace std;
-
-int FactorsPairs = 0;
-int small = 1;
-int big = 0;
-
-void CheckFactors(int number)
+ 
+int GetFactorInfo(int numberwithourinfo, int returnmode)
 {
-    big = number + 1;
-    small = 1;
-
-    for(int i = 0; i < (number * number) +  1; i++)
+ 
+    int factorpairs = 0;
+ 
+    int smallestfactor = 1;
+ 
+    int biggestfactor = numberwithourinfo + 1;
+ 
+ 
+    int smallestreturnablefactor = 0;
+ 
+    int biggestreturnablefactor = 0;
+ 
+ 
+    for(int i = 0; i < (numberwithourinfo * numberwithourinfo); i++)
     {
-        if(small * big == number)
+ 
+        if(smallestfactor * biggestfactor == numberwithourinfo)
         {
-            FactorsPairs += 1;
-            big -= 1;
-        }else
+ 
+            smallestreturnablefactor = biggestfactor;
+ 
+            biggestreturnablefactor = smallestfactor;
+ 
+ 
+            biggestfactor -= 1;
+ 
+            factorpairs += 1;
+        }
+        else
         {
-            big -= 1;
+ 
+            biggestfactor -= 1;
         }
 
-        if(big == 0)
+        if(biggestfactor == 0)
         {
-            big = number + 1;
-            small += 1;
+ 
+            biggestfactor = numberwithourinfo + 1;
+ 
+            smallestfactor += 1;
         }
-
     }
-
-    if(FactorsPairs == 1)
+	
+    if(returnmode == 0)
+        return factorpairs;
+ 
+    if(returnmode == 1)
+        return biggestreturnablefactor;
+ 
+    if(returnmode == 2)
+        return smallestreturnablefactor;
+}
+ 
+void PrintFactorization(int numbertofactorize)
+{
+    vector<int> factors;
+ 
+    int printlooppos = 0;
+ 
+    for(int i = 0; i < numbertofactorize; i++)
     {
-        cout << "number: " << number << endl;
+ 
+        if(GetFactorInfo(numbertofactorize,0) > 1)
+        {
+ 
+            if(GetFactorInfo(numbertofactorize,0) == 1)
+                factors.push_back(GetFactorInfo(numbertofactorize,1));
+ 
+            if(GetFactorInfo(numbertofactorize,2) > 0)
+                factors.push_back(GetFactorInfo(numbertofactorize,2));
+
+            numbertofactorize = GetFactorInfo(numbertofactorize, 1);
+        }
+    }
+ 
+    factors.push_back(GetFactorInfo(numbertofactorize,2));
+ 
+    for(vector<int>::iterator i = factors.begin(); i != factors.end(); i++)
+    {
+ 
+        cout << factors.at(printlooppos) << endl;
+ 
+        printlooppos++;
     }
 }
-
+ 
+ 
 int main()
 {
-    for(int i = 2; i < 101; i++)
+ 
+    cout << "      Prime Numbers      " << endl;
+ 
+    cout << "=========================" << endl;
+ 
+    for(int i = 2; i < 100; i++)
     {
-        CheckFactors(i);
-        FactorsPairs = 0;
+ 
+        if(GetFactorInfo(i,0) == 1)
+            cout << i << endl;
     }
 
-
+    int numbertofactorize;
+ 
+    cout << "Please Enter a number to factorize: " << endl;
+ 
+    cin >> numbertofactorize;
+ 
+    if(GetFactorInfo(numbertofactorize, 0) == 1)
+    {
+ 
+        system("CLS");
+ 
+        cout << "      Prime Numbers      " << endl;
+ 
+        cout << "=========================" << endl;
+ 
+        cout << "Prime factorization of " << numbertofactorize << endl;
+ 
+        cout << "1" << endl;
+ 
+        cout << numbertofactorize << endl;
+    }
+ 
+    else
+    {
+ 
+        system("CLS");
+ 
+        cout << "      Prime Numbers      " << endl;
+ 
+        cout << "=========================" << endl;
+ 
+        cout << "Prime factorization of " << numbertofactorize << endl;
+ 
+        PrintFactorization(numbertofactorize);
+    }
+ 
+ 
     return 0;
+ 
 }
