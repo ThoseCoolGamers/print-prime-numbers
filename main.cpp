@@ -20,7 +20,11 @@ int GetFactorInfo(int numberwithourinfo, int returnmode)
  
     for(int i = 0; i < (numberwithourinfo * numberwithourinfo); i++)
     {
- 
+	//if our smallest factor times our biggest factor is the number with out info
+	//then we have a factor so we decrement our biggest factor so we can try more combinations
+	//and we add to our factor pairs so we can see haveant factors we have
+	//however if we they dont equal our number with our info then we just decrement
+	//our biggest factor to try more combinations.
         if(smallestfactor * biggestfactor == numberwithourinfo)
         {
  
@@ -47,7 +51,9 @@ int GetFactorInfo(int numberwithourinfo, int returnmode)
             smallestfactor += 1;
         }
     }
-	
+    //if our return type is 0:we return how many factors a given number has
+    //if our return type is 1:we return our biggest factor
+    //if our return type is 2:we return our smallest factor
     if(returnmode == 0)
         return factorpairs;
  
@@ -69,10 +75,10 @@ void PrintFactorization(int numbertofactorize)
  
         if(GetFactorInfo(numbertofactorize,0) > 1)
         {
- 
-            if(GetFactorInfo(numbertofactorize,0) == 1)
+            //if we have a prime number then add to our vector of factors the biggest factor
+	    if(GetFactorInfo(numbertofactorize,0) == 1)
                 factors.push_back(GetFactorInfo(numbertofactorize,1));
- 
+            //add to our factor vector the smallest factor.
             if(GetFactorInfo(numbertofactorize,2) > 0)
                 factors.push_back(GetFactorInfo(numbertofactorize,2));
 
@@ -82,6 +88,7 @@ void PrintFactorization(int numbertofactorize)
  
     factors.push_back(GetFactorInfo(numbertofactorize,2));
  
+    //iteratorates through oyr vector of factors and prints our factors out
     for(vector<int>::iterator i = factors.begin(); i != factors.end(); i++)
     {
  
